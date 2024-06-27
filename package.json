@@ -1,0 +1,15 @@
+{
+  "name": "pfu-localizer",
+  "version": "1.0.0",
+  "description": "A json-to-csv and csv-to-json localization converter for projectfu",
+  "main": "index.js",
+  "scripts": {
+    "c2j": "node ./csvtojson/convert-csv-to-json.js",
+    "j2c": "node ./jsontocsv/convert-json-to-csv.js"
+  },  
+  "author": "spyrella",
+  "license": "MIT",
+  "dependencies": {
+    "papaparse": "^5.4.1"
+  }
+}
