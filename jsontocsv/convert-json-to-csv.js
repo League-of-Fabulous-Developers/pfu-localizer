@@ -15,13 +15,14 @@ function saveCsvToFile(jsonData, outputFolder) {
         'Project FU Localization - ACTOR.csv': {},
         'Project FU Localization - ITEM.csv': {},
         'Project FU Localization - FU.csv': {},
-        'Project FU Localization - TYPES.csv': {}
+        'Project FU Localization - TYPES.csv': {},
+        'Project FU Localization - FUID.csv': {}
     };
 
     // Process each language JSON data
     Object.keys(jsonData).forEach(lang => {
         const data = jsonData[lang];
-        
+
         // Process ACTOR section
         Object.entries(data.ACTOR || {}).forEach(([key, value]) => {
             if (!csvData['Project FU Localization - ACTOR.csv'][key]) {
@@ -40,6 +41,10 @@ function saveCsvToFile(jsonData, outputFolder) {
 
         // Process FU section
         Object.entries(data.FU || {}).forEach(([key, value]) => {
+            if (key === 'FUID') {
+                // Skip FUID data here, we'll handle it separately
+                return;
+            }
             if (!csvData['Project FU Localization - FU.csv'][key]) {
                 csvData['Project FU Localization - FU.csv'][key] = { key };
             }
@@ -59,6 +64,13 @@ function saveCsvToFile(jsonData, outputFolder) {
                 csvData['Project FU Localization - TYPES.csv'][`Item_${key}`] = { key: `Item_${key}` };
             }
             csvData['Project FU Localization - TYPES.csv'][`Item_${key}`][lang] = value;
+        });
+
+        Object.entries(data.FU?.FUID || {}).forEach(([key, value]) => {
+            if (!csvData['Project FU Localization - FUID.csv'][key]) {
+                csvData['Project FU Localization - FUID.csv'][key] = { key };
+            }
+            csvData['Project FU Localization - FUID.csv'][key][lang] = value;
         });
     });
 
